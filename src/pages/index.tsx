@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -7,9 +8,9 @@ export default function Home() {
         <p className="text-lg">
           Welcome to the Library Dashboard. Use the sidebar to navigate.
         </p>
-        <a href="/books" className="text-blue-500 underline">
+        <Link href="/books" className="text-blue-500 underline">
           Go to Books List
-        </a>
+        </Link>
       </div>
     </Layout>
   );

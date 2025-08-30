@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React, { ReactNode } from 'react';
 
 interface LayoutProps {
@@ -12,16 +13,24 @@ export default function Layout({ children }: LayoutProps) {
         <nav>
           <ul>
             <li className="mb-4">
-              <a href="/" className="hover:text-gray-300">Home</a>
+              <Link href="/" className="hover:text-gray-300">
+                Home
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="/books" className="hover:text-gray-300">Books</a>
+              <Link href="/books" className="hover:text-gray-300">
+                Books
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="/reading-list" className="hover:text-gray-300">Reading List</a>
+              <Link href="/reading-list" className="hover:text-gray-300">
+                Reading List
+              </Link>
             </li>
             <li className="mb-4">
-              <a href="/debug/memory-leak" className="hover:text-gray-300">Debugging</a>
+              <Link href="/debug/memory-leak" className="hover:text-gray-300">
+                Debugging
+              </Link>
             </li>
           </ul>
         </nav>

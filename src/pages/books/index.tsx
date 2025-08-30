@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Layout from '@/components/Layout';
+import Link from 'next/link';
+import useSWR from 'swr';
 
 interface Book {
   id: string;
@@ -9,18 +11,20 @@ interface Book {
 }
 
 export default function BooksList() {
-  const [books, setBooks] = useState<Book[]>([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    fetch('/api/books')
-      .then(res => res.json())
-      .then(data => setBooks(data));
-  }, []);
+  const fetcher = (...args: Parameters<typeof fetch>) =>
+    fetch(...args).then((res) => res.json());
 
-  const filteredBooks = books.filter(book =>
+  const { data: books, isLoading } = useSWR('/api/books', fetcher);
+
+  const filteredBooks = books?.filter((book: Book) =>
     book.author.toLowerCase().includes(filter.toLowerCase())
   );
+
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
 
   return (
     <Layout>
@@ -33,16 +37,19 @@ export default function BooksList() {
           onChange={(e) => setFilter(e.target.value)}
         />
         <ul className="space-y-4">
-          {filteredBooks.map(book => (
+          {filteredBooks.map((book) => (
             <li key={book.id} className="border p-4 rounded bg-white">
               <h3 className="text-xl">{book.title}</h3>
               <p>{book.author}</p>
-              <p className={book.available ? "text-green-500" : "text-red-500"}>
-                {book.available ? "Available" : "Checked Out"}
+              <p className={book.available ? 'text-green-500' : 'text-red-500'}>
+                {book.available ? 'Available' : 'Checked Out'}
               </p>
-              <a href={`/books/${book.id}`} className="text-blue-500 underline">
+              <Link
+                href={`/books/${book.id}`}
+                className="text-blue-500 underline"
+              >
                 View Details
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

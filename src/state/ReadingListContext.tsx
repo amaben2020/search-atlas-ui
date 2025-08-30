@@ -1,6 +1,18 @@
-import { createContext, useContext } from "react";
-import { readingListStore } from "./ReadingListStore";
+import { createContext, useContext } from 'react';
+import { ReadingListStore } from './ReadingListStore';
 
-const ReadingListContext = createContext(readingListStore);
+type TStoreContext = {
+  store: ReadingListStore;
+};
 
-export const useReadingList = () => useContext(ReadingListContext);
+export const ReadingListContext = createContext<TStoreContext | null>(null);
+
+export const useReadingList = () => {
+  const context = useContext(ReadingListContext);
+
+  if (!context) {
+    throw new Error('Context not found');
+  }
+
+  return context;
+};
